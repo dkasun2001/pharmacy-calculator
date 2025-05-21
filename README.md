@@ -14,7 +14,7 @@ A simple web-based calculator for pharmacy calculations, including price per pil
 1. Clone the repository:
 
 ```
-git clone https://github.com/your-username/pharmacy-calculator.git
+git clone https://github.com/dkasun2001/pharmacy-calculator.git
 ```
 
 2. Open `index.html` in your browser
@@ -46,4 +46,4 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 - [Tailwind CSS](https://tailwindcss.com/) for styling
 - [Font Awesome](https://fontawesome.com/) for icons
-- [Dinusha Kasun](https://github.com/your-github-username) for development
+- [Dinusha Kasun](https://github.com/dkasun2001) for development
