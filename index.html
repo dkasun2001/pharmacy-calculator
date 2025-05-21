@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pharmacy Calculator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      .dark-mode {
+        background-color: #1a1a1a;
+        color: #f3f4f6;
+      }
+      .dark-mode .bg-white {
+        background-color: #2d2d2d;
+      }
+      .dark-mode .bg-blue-600 {
+        background-color: #1e40af;
+      }
+      .dark-mode .bg-blue-700 {
+        background-color: #1e3a8a;
+      }
+      .dark-mode .text-gray-700 {
+        color: #d1d5db;
+      }
+      .dark-mode .text-gray-600 {
+        color: #9ca3af;
+      }
+      .dark-mode .text-gray-800 {
+        color: #f3f4f6;
+      }
+      .dark-mode input {
+        color: #050505;
+      }
+      .dark-mode .bg-gray-100 {
+        background-color: #1a1a1a;
+      }
+      .dark-mode .bg-gray-200 {
+        background-color: #2d2d2d;
+      }
+      .dark-mode #reset1 {
+        background-color: #2d2d2d;
+        color: #f3f4f6;
+      }
+      .dark-mode #reset1:hover {
+        background-color: #3d3d3d;
+      }
+      .dark-mode .hover\:bg-gray-300:hover {
+        background-color: #3d3d3d;
+      }
+      .dark-mode .text-gray-800 {
+        color: #f3f4f6;
+      }
+      .dark-mode .bg-blue-50 {
+        background-color: #1e3a8a;
+      }
+      .dark-mode .border-blue-200 {
+        border-color: #1e40af;
+      }
+      .dark-mode .shadow {
+        box-shadow: 0 1px 3px rgba(255, 255, 255, 0.1);
+      }
+      .dark-mode .shadow-lg {
+        box-shadow: 0 10px 15px rgba(255, 255, 255, 0.1);
+      }
+      .tab-active {
+        background-color: #3b82f6;
+        color: white;
+      }
+      .input-highlight {
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+      }
+      .result-card {
+        transition: all 0.3s ease;
+      }
+      .result-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100 min-h-screen font-sans">
+    <div class="container mx-auto px-4 py-8 max-w-md">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <!-- Header -->
+        <div class="bg-blue-600 py-4 px-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <h1 class="text-2xl font-bold text-white">Pharmacy Calculator</h1>
+              <p class="text-blue-100 text-sm">
+                Calculate pill prices and quantities
+              </p>
+            </div>
+            <div class="bg-blue-700 p-3 rounded-full">
+              <i class="fas fa-pills text-white text-xl"></i>
+            </div>
+            <button
+              id="darkModeToggle"
+              class="ml-4 bg-gray-200 p-2 rounded-full hover:bg-gray-300 transition-colors duration-200"
+            >
+              <i class="fas fa-moon text-gray-800"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="flex border-b">
+          <button
+            id="tab1"
+            class="tab-active flex-1 py-3 px-4 text-center font-medium transition-colors duration-200"
+          >
+            <i class="fas fa-calculator mr-2"></i>Price Calculator
+          </button>
+          <button
+            id="tab2"
+            class="flex-1 py-3 px-4 text-center font-medium text-gray-600 bg-gray-100 transition-colors duration-200"
+          >
+            <i class="fas fa-shopping-basket mr-2"></i>Quantity Calculator
+          </button>
+        </div>
+
+        <!-- Tab Content -->
+        <div class="p-6">
+          <!-- Tab 1 Content -->
+          <div id="content1">
+            <div class="mb-6">
+              <label
+                for="pillsBought"
+                class="block text-gray-700 font-medium mb-2"
+              >
+                <i class="fas fa-capsules mr-2 text-blue-500"></i>Number of
+                Pills Bought
+              </label>
+              <input
+                type="number"
+                id="pillsBought"
+                class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:input-highlight"
+                placeholder="e.g. 5"
+              />
+            </div>
+
+            <div class="mb-6">
+              <label
+                for="pillsPerCard"
+                class="block text-gray-700 font-medium mb-2"
+              >
+                <i class="fas fa-box-open mr-2 text-blue-500"></i>Pills per Card
+              </label>
+              <input
+                type="number"
+                id="pillsPerCard"
+                class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:input-highlight"
+                placeholder="e.g. 10"
+              />
+            </div>
+
+            <div class="mb-6">
+              <label
+                for="cardPrice"
+                class="block text-gray-700 font-medium mb-2"
+              >
+                <i class="fas fa-tag mr-2 text-blue-500"></i>Price per Card
+                (Rs.)
+              </label>
+              <input
+                type="number"
+                id="cardPrice"
+                class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:input-highlight"
+                placeholder="e.g. 100"
+              />
+            </div>
+
+            <div class="flex space-x-4">
+              <button
+                id="calculate1"
+                class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg font-medium transition-colors duration-200"
+              >
+                <i class="fas fa-calculator mr-2"></i>Calculate
+              </button>
+              <button
+                id="reset1"
+                class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 py-3 px-4 rounded-lg font-medium transition-colors duration-200"
+              >
+                <i class="fas fa-redo mr-2"></i>Reset
+              </button>
+            </div>
+
+            <div id="result1" class="mt-6 hidden">
+              <div
+                class="result-card bg-blue-50 border border-blue-200 rounded-lg p-4"
+              >
+                <h3 class="font-bold text-blue-800 mb-2 flex items-center">
+                  <i class="fas fa-info-circle mr-2"></i> Calculation Results
+                </h3>
+                <div class="grid grid-cols-2 gap-4">
+                  <div class="bg-white p-3 rounded-lg shadow-sm">
+                    <p class="text-sm text-gray-500">Price per Pill</p>
+                    <p
+                      id="pricePerPill"
+                      class="text-xl font-bold text-blue-600"
+                    >
+                      Rs.0.00
+                    </p>
+                  </div>
+                  <div class="bg-white p-3 rounded-lg shadow-sm">
+                    <p class="text-sm text-gray-500">Total Price</p>
+                    <p id="totalPrice" class="text-xl font-bold text-green-600">
+                      Rs.0.00
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab 2 Content -->
+          <div id="content2" class="hidden">
+            <div class="mb-6">
+              <label
+                for="customerMoney"
+                class="block text-gray-700 font-medium mb-2"
+              >
+                <i class="fas fa-money-bill-wave mr-2 text-blue-500"></i
+                >Customer's Money (Rs.)
+              </label>
+              <input
+                type="number"
+                id="customerMoney"
+                class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:input-highlight"
+                placeholder="e.g. 50"
+              />
+            </div>
+
+            <div class="mb-6">
+              <label
+                for="pillsPerCard2"
+                class="block text-gray-700 font-medium mb-2"
+              >
+                <i class="fas fa-box-open mr-2 text-blue-500"></i>Pills per Card
+              </label>
+              <input
+                type="number"
+                id="pillsPerCard2"
+                class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:input-highlight"
+                placeholder="e.g. 10"
+              />
+            </div>
+
+            <div class="mb-6">
+              <label
+                for="cardPrice2"
+                class="block text-gray-700 font-medium mb-2"
+              >
+                <i class="fas fa-tag mr-2 text-blue-500"></i>Price per Card
+                (Rs.)
+              </label>
+              <input
+                type="number"
+                id="cardPrice2"
+                class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:input-highlight"
+                placeholder="e.g. 100"
+              />
+            </div>
+
+            <div class="flex space-x-4">
+              <button
+                id="calculate2"
+                class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg font-medium transition-colors duration-200"
+              >
+                <i class="fas fa-calculator mr-2"></i>Calculate
+              </button>
+              <button
+                id="reset2"
+                class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 py-3 px-4 rounded-lg font-medium transition-colors duration-200"
+              >
+                <i class="fas fa-redo mr-2"></i>Reset
+              </button>
+            </div>
+
+            <div id="result2" class="mt-6 hidden">
+              <div
+                class="result-card bg-blue-50 border border-blue-200 rounded-lg p-4"
+              >
+                <h3 class="font-bold text-blue-800 mb-2 flex items-center">
+                  <i class="fas fa-info-circle mr-2"></i> Calculation Results
+                </h3>
+                <div class="bg-white p-4 rounded-lg shadow-sm">
+                  <p class="text-sm text-gray-500">Pills Customer Can Buy</p>
+                  <p id="pillsCanBuy" class="text-2xl font-bold text-blue-600">
+                    0
+                  </p>
+                  <p id="remainingMoney" class="text-sm text-gray-600 mt-1">
+                    No remaining money
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Instructions -->
+      <div class="mt-6 bg-white rounded-xl shadow p-6">
+        <h3 class="font-bold text-gray-800 mb-3 flex items-center">
+          <i class="fas fa-question-circle text-blue-500 mr-2"></i> How to use
+        </h3>
+        <div class="space-y-3 text-sm text-gray-600">
+          <p>
+            <span class="font-medium">Price Calculator:</span> Enter number of
+            pills bought, pills per card, and card price to calculate individual
+            pill price and total cost.
+          </p>
+          <p>
+            <span class="font-medium">Quantity Calculator:</span> Enter
+            customer's money, pills per card, and card price to calculate how
+            many pills they can buy.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer
+      class="mt-8 w-full flex flex-col items-center justify-center py-4 bg-white rounded-xl shadow text-gray-600 text-sm gap-2"
+    >
+      <div class="flex items-center gap-2">
+        <span
+          >Developed by
+          <span class="font-semibold text-blue-700">Dinusha Kasun</span></span
+        >
+      </div>
+      <div class="flex gap-4 mt-1">
+        <a
+          href="https://github.com/your-github-username"
+          target="_blank"
+          aria-label="GitHub"
+          class="hover:text-blue-600 transition-colors text-xl"
+        >
+          <i class="fab fa-github"></i>
+        </a>
+        <a
+          href="https://linkedin.com/in/your-linkedin-username"
+          target="_blank"
+          aria-label="LinkedIn"
+          class="hover:text-blue-600 transition-colors text-xl"
+        >
+          <i class="fab fa-linkedin"></i>
+        </a>
+      </div>
+    </footer>
+
+    <script>
+      // Tab switching functionality
+      document.getElementById("tab1").addEventListener("click", function () {
+        document.getElementById("tab1").classList.add("tab-active");
+        document
+          .getElementById("tab1")
+          .classList.remove("text-gray-600", "bg-gray-100");
+        document.getElementById("tab2").classList.remove("tab-active");
+        document
+          .getElementById("tab2")
+          .classList.add("text-gray-600", "bg-gray-100");
+        document.getElementById("content1").classList.remove("hidden");
+        document.getElementById("content2").classList.add("hidden");
+      });
+
+      document.getElementById("tab2").addEventListener("click", function () {
+        document.getElementById("tab2").classList.add("tab-active");
+        document
+          .getElementById("tab2")
+          .classList.remove("text-gray-600", "bg-gray-100");
+        document.getElementById("tab1").classList.remove("tab-active");
+        document
+          .getElementById("tab1")
+          .classList.add("text-gray-600", "bg-gray-100");
+        document.getElementById("content2").classList.remove("hidden");
+        document.getElementById("content1").classList.add("hidden");
+      });
+
+      // Calculator 1 functionality (Price Calculator)
+      document
+        .getElementById("calculate1")
+        .addEventListener("click", function () {
+          const pillsBought = parseFloat(
+            document.getElementById("pillsBought").value
+          );
+          const pillsPerCard = parseFloat(
+            document.getElementById("pillsPerCard").value
+          );
+          const cardPrice = parseFloat(
+            document.getElementById("cardPrice").value
+          );
+
+          if (
+            isNaN(pillsBought) ||
+            isNaN(pillsPerCard) ||
+            isNaN(cardPrice) ||
+            pillsPerCard <= 0
+          ) {
+            alert(
+              "Please enter valid numbers in all fields (Pills per Card must be greater than 0)"
+            );
+            return;
+          }
+
+          const pricePerPill = cardPrice / pillsPerCard;
+          const totalPrice = pricePerPill * pillsBought;
+
+          document.getElementById("pricePerPill").textContent =
+            "Rs." + pricePerPill.toFixed(2);
+          document.getElementById("totalPrice").textContent =
+            "Rs." + totalPrice.toFixed(2);
+          document.getElementById("result1").classList.remove("hidden");
+        });
+
+      document.getElementById("reset1").addEventListener("click", function () {
+        document.getElementById("pillsBought").value = "";
+        document.getElementById("pillsPerCard").value = "";
+        document.getElementById("cardPrice").value = "";
+        document.getElementById("result1").classList.add("hidden");
+      });
+
+      // Calculator 2 functionality (Quantity Calculator)
+      document
+        .getElementById("calculate2")
+        .addEventListener("click", function () {
+          const customerMoney = parseFloat(
+            document.getElementById("customerMoney").value
+          );
+          const pillsPerCard = parseFloat(
+            document.getElementById("pillsPerCard2").value
+          );
+          const cardPrice = parseFloat(
+            document.getElementById("cardPrice2").value
+          );
+
+          if (
+            isNaN(customerMoney) ||
+            isNaN(pillsPerCard) ||
+            isNaN(cardPrice) ||
+            pillsPerCard <= 0 ||
+            cardPrice <= 0
+          ) {
+            alert(
+              "Please enter valid numbers in all fields (Pills per Card and Card Price must be greater than 0)"
+            );
+            return;
+          }
+
+          const pricePerPill = cardPrice / pillsPerCard;
+          const pillsCanBuy = Math.floor(customerMoney / pricePerPill);
+          const remainingMoney = customerMoney - pillsCanBuy * pricePerPill;
+
+          document.getElementById("pillsCanBuy").textContent = pillsCanBuy;
+
+          const remainingText =
+            remainingMoney > 0
+              ? `Remaining money: Rs.${remainingMoney.toFixed(2)}`
+              : "No remaining money";
+          document.getElementById("remainingMoney").textContent = remainingText;
+
+          document.getElementById("result2").classList.remove("hidden");
+        });
+
+      document.getElementById("reset2").addEventListener("click", function () {
+        document.getElementById("customerMoney").value = "";
+        document.getElementById("pillsPerCard2").value = "";
+        document.getElementById("cardPrice2").value = "";
+        document.getElementById("result2").classList.add("hidden");
+      });
+
+      // Dark mode toggle functionality
+      const darkModeToggle = document.getElementById("darkModeToggle");
+      darkModeToggle.addEventListener("click", function () {
+        document.body.classList.toggle("dark-mode");
+        const icon = this.querySelector("i");
+        if (document.body.classList.contains("dark-mode")) {
+          icon.classList.remove("fa-moon");
+          icon.classList.add("fa-sun");
+        } else {
+          icon.classList.remove("fa-sun");
+          icon.classList.add("fa-moon");
+        }
+      });
+
+      // Add input highlighting on focus
+      const inputs = document.querySelectorAll('input[type="number"]');
+      inputs.forEach((input) => {
+        input.addEventListener("focus", function () {
+          this.classList.add("input-highlight");
+        });
+        input.addEventListener("blur", function () {
+          this.classList.remove("input-highlight");
+        });
+      });
+    </script>
+  </body>
+</html>
